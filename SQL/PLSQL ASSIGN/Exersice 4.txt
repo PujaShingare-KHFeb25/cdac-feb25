@@ -1,0 +1,65 @@
+DELIMITER //
+
+CREATE PROCEDURE Bill()
+BEGIN
+    DECLARE unit_used INT;
+    DECLARE rate FLOAT;
+    DECLARE amount FLOAT;
+    DECLARE surcharge FLOAT;
+    DECLARE excise FLOAT;
+    DECLARE net FLOAT;
+    DECLARE a VARCHAR(4);
+    DECLARE b CHAR(1);
+    DECLARE c INT;
+    DECLARE d INT;
+    DECLARE type CHAR(1);
+    DECLARE payment CHAR(1);
+    DECLARE x INT DEFAULT 0;
+    DECLARE y INT;
+    DECLARE c1 CURSOR FOR SELECT * FROM customer;
+
+    SELECT COUNT(*) INTO y FROM customer;
+    OPEN c1;
+
+    WHILE x < y DO
+        FETCH c1 INTO a, b, c, d, type, payment;
+
+        SET unit_used = d - c;
+
+        IF type = 'A' THEN
+            SET rate = 1;
+        ELSEIF type = 'I' THEN
+            SET rate = 1.15;
+        ELSEIF type = 'C' THEN
+            SET rate = 1.50;
+        ELSEIF type = 'R' THEN
+            SET rate = 1.30;
+        END IF;
+
+        IF type = 'A' THEN
+            SET amount = 1 * unit_used;
+        ELSEIF type = 'I' THEN
+            SET amount = 1.25 * unit_used;
+        ELSEIF type = 'C' THEN
+            SET amount = 1.50 * unit_used;
+        ELSEIF type = 'R' THEN
+            SET amount = 1.30 * unit_used;
+        END IF;
+
+        IF b = 'T' THEN
+            SET surcharge = 0.05 * unit_used;
+        ELSEIF b = 'S' THEN
+            SET surcharge = 0.1 * unit_used;
+        END IF;
+
+        SET excise = 0.3 * (amount + surcharge);
+        SET net = amount + surcharge + excise;
+
+        INSERT INTO tempp VALUES (a, unit_used, rate, amount, surcharge, excise, net);
+        SET x = x + 1;
+    END WHILE;
+
+    CLOSE c1;
+END //
+
+DELIMITER ;

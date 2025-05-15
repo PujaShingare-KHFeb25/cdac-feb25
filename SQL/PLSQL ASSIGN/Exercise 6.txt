@@ -1,0 +1,35 @@
+delimiter //
+create procedure comp_intr(p int,r float,y int)
+begin
+      declare I float;
+      declare amount float;
+      set I=p*pow(1+r,y)-p;
+       set amount=I+p;
+        insert into temp1 values(I,amount);
+end; //
+delimiter ;
+*************************************************
+delimiter //
+create function Age_calc(x date)
+returns int
+deterministic
+begin
+    declare res int;
+    declare age int;
+    SELECT datediff(sysdate(), x) INTO res FROM dual;
+       set age=res/365;
+     return age;    
+end; //
+
+
+
+delimiter //
+create procedure age2()
+ begin
+      declare age int;
+
+    set age=Age_calc('2012-06-18');
+      insert into temp1 values(age);
+end; //
+delimiter ;
+***********************************************

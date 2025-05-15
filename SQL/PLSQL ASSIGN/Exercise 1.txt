@@ -1,0 +1,42 @@
+							MySQL    
+							Exercise 1   
+
+1. Write a program that computes the perimeter and the area of a rectangle. Define 
+your own values for the length and width. (Assuming that L and W are the length 
+and width of the rectangle, Perimeter = 2*(L+W) and Area = L*W.    
+delimiter //
+create procedure abc1()
+begin
+declare length int default 10;
+declare width int default 10;
+declare perimeter int;
+declare area int;
+set perimeter=2*length*width;
+set area=length*width;
+insert into tempp values(perimeter,area);
+ end;//
+delimeter;
+
+2. Write a program that declares an integer variable called num, assigns a value to it, 
+and computes and inserts into the tempp table the value of the variable itself, its 
+square, and its cube.   
+delimiter //
+create procedure abc2()
+begin
+declare  num int;
+declare s int(4);
+declare c int(4);
+set num=10;
+set s=num*num;
+set c=num*num*num;
+insert into tempp values(num,s,c);
+end; //
+delimiter ;
+
+delimiter //
+create procedure abc3(x int)
+begin
+if mod(x,5) then
+insert into tempp values('x is divisible by 5');
+end if;
+end; //

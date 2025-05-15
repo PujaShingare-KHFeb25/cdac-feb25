@@ -1,0 +1,43 @@
+delimiter //
+create function traingle(x int,y int,z int)
+returns boolean
+deterministic
+begin
+    if(x+y > z or y+z > x or x+z > y)then
+    return true;
+     else 
+     return false;
+    end if;
+end; //
+delimiter ;
+***********************************************************
+mysql> delimiter //
+mysql> create function traingle(x int,y int,z int)
+    -> returns boolean
+    -> deterministic
+    -> begin
+    ->     if(x+y > z or y+z > x or x+z > y)then
+    ->     return true;
+    ->      else
+    ->      return false;
+    ->     end if;
+    -> end; //
+Query OK, 0 rows affected (0.82 sec)
+
+mysql> delimiter ;
+mysql> grant execute on function mysql.traingle to puja@localhost;
+Query OK, 0 rows affected (4.34 sec)
+************************************************************
+
+
+delimiter //
+create procedure trai1()
+begin
+   
+    if traingle(7,10,5) then
+     insert into temppp values('true');
+     else
+      insert into temppp values('false');
+     end if;      
+end; //
+delimiter ;

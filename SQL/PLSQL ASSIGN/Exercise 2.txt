@@ -1,0 +1,42 @@
+                         MySQL    
+			Exercise 2   
+1. Select from any table a number and determine whether it is within a given range (for 
+example, between 1 and 10).  
+
+
+delimiter //
+create procedure abc5()
+begin
+declare x int;
+select x into x from customers where x=5;
+if x >1 and x< 10 then
+  insert into tempp values('x is in range');
+else
+insert into tempp values('x is not in range');
+end if;
+end; //
+delimiter ;
+
+
+2. Select from any table three positive integers representing the sides of a triangle, and 
+determine whether they form a valid triangle. Hint: In a triangle, the sum of any two 
+sides must always be greater than the third side. 
+
+delimiter //
+create procedure abc8()
+begin
+declare p int;
+declare q int;
+declare r int;
+select a,b,c into p,q,r from abc where a=7;
+if (p+q >r or q+r>p or p+r>q) then 
+    insert into tempp values('valid traingle');
+else 
+insert into tempp values('Invalid traingle');
+  end if;
+end; //
+delimiter ;
+
+4. Write a program that Selects from any table two character strings.  Your program should 
+then determine if one character string exists inside another character string. 
+
