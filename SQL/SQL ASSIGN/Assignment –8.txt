@@ -1,0 +1,38 @@
+					Assignment –8
+ Formatting Query output.
+ 1) Assume each salesperson has a 12% commission. Write a query on the orders 
+table that will produce the order number, the salesperson number, and the amount 
+of the salesperson’s commission for that order. 
+
+mysql> select onum,snum,amt*0.12 as "comm" from orders;
+
+2) Write a query on the Customers table that will find the highest rating in each city. 
+Put the output in this form: 
+For the city (city), the highest rating is : (rating). 
+
+SELECT CONCAT('For the city ', city, ', the highest rating is: ', max_rating)FROM (  SELECT city, MAX(rating) AS max_rating  FROM customers  GROUP BY city) AS subquery;
++------------------------------------------------------------------------+
+| CONCAT('For the city ', city, ', the highest rating is: ', max_rating) |
++------------------------------------------------------------------------+
+| For the city London, the highest rating is: 100                        |
+| For the city Rome, the highest rating is: 200                          |
+| For the city San Jose, the highest rating is: 300                      |
+| For the city Berlin, the highest rating is: 300                        |
++------------------------------------------------------------------------+
+
+
+
+3) Write a query that lists customers in descending order of rating. Output the rating 
+field first, followed by the customer’s name and number. 
+
+
+mysql> select rating,cname,cnum from customers order by rating desc;
+
+
+
+4) Write a query that totals the orders for each day and places the results in 
+descending order.
+
+
+mysql> select count(odate) total from orders group by odate order by total desc;
+	

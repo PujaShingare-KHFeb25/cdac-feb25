@@ -1,0 +1,70 @@
+						Assignment – 19
+ Views.
+
+ 1) Create a view that shows all of the customers who have the highest ratings.
+ 
+mysql> create view v1 as select * from customers where rating=(select max(rating) from customers);
+Query OK, 0 rows affected (2.13 sec)
+
+mysql> select * from v1;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2008 | Cisneros | San jose |    300 | 1007 |
++------+----------+----------+--------+------+
+2 rows in set (0.23 sec)
+
+2) Create a view that shows the number of salespeople in each city. 
+
+mysql> create view v2 as select city,count(city) from salespeople group by city;
+Query OK, 0 rows affected (0.51 sec)
+
+mysql> select * from v2;
++-----------+-------------+
+| city      | count(city) |
++-----------+-------------+
+| London    |           2 |
+| San Jose  |           1 |
+| Barcelona |           1 |
+| New York  |           1 |
++-----------+-------------+
+4 rows in set (0.25 sec)
+
+3) Create a view that shows the average and total orders for each salesperson after 
+his or her name. Assume all names are unique. 
+
+mysql> create view v4 as select sname,count(orders.snum)/1,count(orders.snum) count from orders,salespeople where salespeople.snum=orders.snum group by sname,orders.snum;
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> select * from  v4;
++---------+----------------------+-------+
+| sname   | count(orders.snum)/1 | count |
++---------+----------------------+-------+
+| Rifkin  |               2.0000 |     2 |
+| Motika  |               1.0000 |     1 |
+| Peel    |               3.0000 |     3 |
+| Serres  |               3.0000 |     3 |
+| Axelrod |               1.0000 |     1 |
++---------+----------------------+-------+
+
+
+
+4) Create a view that shows each salesperson with multiple customers.	
+
+mysql> create view v5 as select sname,cname from customers,salespeople where customers.snum=salespeople.snum;
+Query OK, 0 rows affected (0.87 sec)
+
+mysql> select * from v5;
++---------+----------+
+| sname   | cname    |
++---------+----------+
+| Peel    | Hoffman  |
+| Axelrod | Giovanni |
+| Serres  | Liu      |
+| Serres  | Grass    |
+| Peel    | Clemens  |
+| Rifkin  | Cisneros |
+| Motika  | Pareira  |
++---------+----------+
+	
